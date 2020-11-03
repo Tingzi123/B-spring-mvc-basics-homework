@@ -9,27 +9,30 @@ import java.util.List;
 
 @Service
 public class UserService {
-    List<User> users=new ArrayList<>();
+    public static List<User> users = new ArrayList<>();
 
-    public void register(User user){
-        for (User userTmp:users) {
-            if (userTmp.getUsername().equals(user.getUsername())){
-                throw new UserExistsException("User already exists");
+    public void register(User user) {
+        if (users.size() > 0) {
+            for (User userTmp : users) {
+                if (userTmp.getUsername().equals(user.getUsername())) {
+                    throw new UserExistsException("User already exists");
+                }
             }
         }
 
         users.add(user);
     }
 
-    public User login(String username,String password){
-        User user=new User();
+    public User login(String username, String password) {
+        User user = new User();
 
-        for (User userTmp:users) {
-            if (userTmp.getUsername().equals(username) && userTmp.getPassword().equals(password)){
-                user=userTmp;
+        if (users.size() > 0) {
+            for (User userTmp : users) {
+                if (userTmp.getUsername().equals(username) && userTmp.getPassword().equals(password)) {
+                    user = userTmp;
+                }
             }
         }
-
         return user;
     }
 }
